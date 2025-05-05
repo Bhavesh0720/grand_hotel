@@ -1,0 +1,347 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Grand Hotel Room Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=|Roboto+Sans:400,700|Playfair+Display:400,700">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.timepicker.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fancybox.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/ionicons/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+
+
+  <section class="site-hero inner-page overlay" style="background-image: url('{{ url_for('static', filename='images/hero_4.jpg') }}')" data-stellar-background-ratio="0.5">
+      <!-- Header Start -->
+      <div class="container-fluid bg-transparent px-0">
+        <div class="row gx-0">
+            <div class="col-lg-3 bg-transparent d-none d-lg-flex align-items-center justify-content-center">
+                <a href="{{ url_for('index') }}" class="navbar-brand d-flex align-items-center">
+                    <img src="{{ url_for('static', filename='images/Hotel_Grand_Logo.jpg') }}" alt="Hotel Logo" class="logo-image">
+                </a>
+            </div>
+
+            <div class="col-lg-9 d-flex justify-content-between align-items-center">
+                <nav class="navbar navbar-expand-lg bg-transparent navbar-dark p-3 p-lg-0 w-100">
+                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
+                        <div class="navbar-nav">
+                            <a href="{{ url_for('index') }}" class="nav-item nav-link">Home</a>
+                            <a href="{{ url_for('about') }}" class="nav-item nav-link">About</a>
+                            <a href="{{ url_for('rooms') }}" class="nav-item nav-link">Rooms</a>
+                            <a href="{{ url_for('reservation') }}" class="nav-item nav-link active">Booking</a>
+                            <a href="{{ url_for('contact') }}" class="nav-item nav-link">Contact</a>
+                            <a href="{{ url_for('events') }}" class="nav-item nav-link">Events</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- User Profile with Initials or Login Link -->
+                <div class="nav-item d-flex align-items-center">
+                    {% if 'email' in session %}
+                        <a href="{{ url_for('profile') }}" class="nav-item nav-link rounded-circle bg-light text-dark d-flex align-items-center justify-content-center profile-logo">
+                            {{ session['email'][0]|upper }}
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-item nav-link">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+        <div class="container">
+            <div class="row site-hero-inner justify-content-center align-items-center">
+                <div class="col-md-10 text-center" data-aos="fade">
+                    <h1 class="heading mb-3">Reservation Form</h1>
+                    <ul class="custom-breadcrumbs mb-4">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li>&bullet;</li>
+                        <li>Reservation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contact-section" id="next">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
+                    <form action="{{ url_for('reservation') }}" method="post" class="bg-white p-md-5 p-4 mb-5 border">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+<!--                                <label class="text-black font-weight-bold" for="user_id">User ID</label>-->
+                                <input type="text" id="user_id" name="user_id" class="form-control" value="{{ user_id }}" hidden>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label class="text-black font-weight-bold" for="reservation_date">Reservation Date</label>
+                                <input type="text" id="reservation_date" name="reservation_date" class="form-control" value="{{ today_date }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="text-black font-weight-bold" for="room_type">Room Type</label>
+                                <select id="room_type" name="room_type" class="form-control" required>
+                                    <option value="">Select Room Type</option>
+                                    <option value="Single Room (No AC)">Single Room (No AC)</option>
+                                    <option value="Single Room (AC)">Single Room (AC)</option>
+                                    <option value="Family Room">Family Room</option>
+                                    <option value="Business Class">Business Class</option>
+                                    <option value="Deluxe Suite">Deluxe Suite</option>
+                                    <option value="Super Deluxe Suite">Super Deluxe Suite</option>
+                                    <option value="Junior Suite">Junior Suite</option>
+                                    <option value="Presidential Suite">Presidential Suite</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="text-black font-weight-bold" for="room_no">Room No</label>
+                                    <select id="room_no" name="room_no" class="form-control" required>
+                                        <option value="">Select Room No</option>
+                                        <!-- Available rooms will be populated here based on room type selection -->
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="text-black font-weight-bold" for="check_in_date">Date Check In</label>
+                                <input type="text" id="check_in_date" name="check_in_date" class="form-control datepicker"  autocomplete="off" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="text-black font-weight-bold" for="check_out_date">Date Check Out</label>
+                                <input type="text" id="check_out_date" name="check_out_date" class="form-control datepicker" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-12 form-group">
+                                <label class="text-black font-weight-bold" for="message">Notes</label>
+                                <textarea name="message" id="message" class="form-control" cols="30" rows="8"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input type="submit" value="Reserve Now" class="btn btn-primary text-white py-3 px-5 font-weight-bold">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section bg-image overlay" style="background-image: url('{{ url_for('static', filename='images/hero_4.jpg') }}');">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-6 text-center mb-4 mb-md-0 text-md-left" data-aos="fade-up">
+                    <h2 class="text-white font-weight-bold">A Best Place To Stay. Reserve Now!</h2>
+                </div>
+                <div class="col-12 col-md-6 text-center text-md-right" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{{ url_for('reservation') }}" class="btn btn-outline-white-primary py-3 text-white px-5">Reserve Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="section footer-section">
+      <div class="container">
+        <div class="row mb-4">
+
+          <div class="col-md-3 mb-5">
+            <ul class="list-unstyled link">
+              <li><a href="{{ url_for('rooms')}}">The Rooms &amp; Suites</a></li>
+              <li><a href="{{ url_for('about')}}">About Us</a></li>
+
+              <li><a href="{{url_for('contact')}}">Contact Us</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 mb-5">
+            <ul class="list-unstyled link">
+              <li><a href="{{url_for('terms_and_conditions')}}">Terms &amp; Conditions</a></li>
+              <li><a href="{{url_for('privacy_policy')}}">Privacy Policy</a></li>
+                <li><a href="{{url_for('our_location')}}">Our Location</a></li>
+            </ul>
+          </div>
+            <div class="col-md-5 mb-6">
+                <ul class="list-unstyled">
+                    <li><strong>Hotel Address:</strong></li>
+                    <p> Near Sardar Bag, Shanala Road,
+                        Morbi-363641, Gujarat, India.
+                    <p>Phone: +123 456 7890</p>
+                    <p>Email: grand123@gmail.com</p>
+                </ul>
+            </div>
+
+        </div>
+        <div class="row bordertop">
+          <p class="col-md-7 text-left">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> All rights reserved | <a href="{{ url_for('index')}}">Grand Hotel</a>
+          </p>
+
+          <p class="col-md-5 text-right social">
+            <a href="https://www.tripadvisor.in/"><span class="fa fa-tripadvisor"></span></a>
+            <a href="https://www.facebook.com/"><span class="fa fa-facebook"></span></a>
+            <a href="https://x.com/?lang=en"><span class="fa fa-twitter"></span></a>
+            <a href="https://www.instagram.com/"><span class="fa fa-instagram"></span></a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+
+    <!-- Script to handle flash messages -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Datepicker initialization
+            $(".datepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 0
+            });
+
+            // Handle form submission
+            $('form').on('submit', function(e) {
+                e.preventDefault(); // Prevent the form from submitting normally
+
+                // Show loading icon
+                Swal.fire({
+                    icon: 'loading',
+                    title: 'Processing your reservation...',
+                    text: 'Please wait a moment.',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+
+                // Simulate form submission delay
+                setTimeout(() => {
+                    // After the loading, submit the form using AJAX or redirect on success
+                    $.ajax({
+                        url: "{{ url_for('reservation') }}",
+                        type: "POST",
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            // If reservation is successful, show success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Reservation Successful!',
+                                text: 'Your room has been reserved.',
+                                showConfirmButton: true
+                                }).then(() => {
+                                // Optionally, redirect after the success message
+                                window.location.href = "{{ url_for('index') }}";
+                            });
+                        },
+                        error: function() {
+                            // If there is an error, show error message
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Reservation Failed!',
+                                text: 'Something went wrong. Please try again later.',
+                                showConfirmButton: true
+                            });
+                        }
+                    });
+                }, 2000); // Simulate a 2-second delay before showing the success message
+            });
+        });
+    </script>
+
+
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-migrate-3.0.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stellar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.fancybox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/aos.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.timepicker.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include Bootstrap Datepicker CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+
+
+    <script>
+        $(document).ready(function() {
+            // Datepicker initialization
+            $(".datepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 0 // This disables all dates before today
+            });
+
+            // Populate room_id based on selected room_type
+            $('#room_type').change(function() {
+                var roomType = $(this).val();
+                if (roomType) {
+                    $.ajax({
+                        url: '/get_rooms/' + encodeURIComponent(roomType),
+                        type: 'GET',
+                        success: function(data) {
+                            var roomNoSelect = $('#room_no');
+                            roomNoSelect.empty();
+                            roomNoSelect.append('<option value="">Select Room No</option>');
+                            if (data.length > 0) {
+                                $.each(data, function(index, roomId) {
+                                    roomNoSelect.append('<option value="' + roomId + '">' + roomId + '</option>');
+                                });
+                            } else {
+                                roomNoSelect.append('<option value="">No Rooms Available</option>');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log('Error retrieving rooms:', status, error);
+                            alert('Error retrieving rooms. Please try again later.');
+                        }
+                    });
+                } else {
+                    $('#room_no').empty().append('<option value="">Select Room No</option>');
+                }
+            });
+
+            // Auto-select room type if it's passed in the URL
+            var initialRoomType = "{{ room_type }}";
+            if (initialRoomType) {
+                $('#room_type').val(initialRoomType).trigger('change');
+            }
+        });
+    </script>
+  </body>
+</html>

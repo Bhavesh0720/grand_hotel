@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+        }
+        body {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #4070f4;
+        }
+        .wrapper {
+          position: relative;
+          max-width: 500px;
+          width: 100%;
+          background: #fff;
+          padding: 34px;
+          border-radius: 6px;
+          box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        .wrapper h2 {
+          position: relative;
+          font-size: 26px;
+          font-weight: 600;
+          color: #333;
+        }
+        .wrapper h2::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 3px;
+          width: 28px;
+          border-radius: 12px;
+          background: #4070f4;
+        }
+        .wrapper form {
+          margin-top: 30px;
+        }
+        .wrapper form .input-box {
+          height: 52px;
+          margin: 18px 0;
+          position: relative;
+        }
+        .input-box input,
+        .input-box select {
+          height: 100%;
+          width: 100%;
+          padding: 0 35px 0 15px; /* Adjust padding to make room for the eye icon */
+          font-size: 17px;
+          font-weight: 400;
+          color: #333;
+          border: 1.5px solid #C7BEBE;
+          border-bottom-width: 2.5px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+        }
+        .input-box input:focus,
+        .input-box input:valid,
+        .input-box select:focus,
+        .input-box select:valid {
+          border-color: #4070f4;
+        }
+        .input-box .required {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 16px;
+          color: red;
+        }
+        .eye-icon {
+          position: absolute;
+          right: 25px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          color: #333;
+          font-size: 20px;
+        }
+        form .policy {
+          display: flex;
+          align-items: center;
+        }
+        form h3 {
+          color: #707070;
+          font-size: 14px;
+          font-weight: 500;
+          margin-left: 10px;
+        }
+        .input-box.button input {
+          color: #fff;
+          letter-spacing: 1px;
+          border: none;
+          background: #4070f4;
+          cursor: pointer;
+        }
+        .input-box.button input:hover {
+          background: #0e4bf1;
+        }
+        form .text h3 {
+          color: #333;
+          width: 100%;
+          text-align: center;
+        }
+        form .text h3 a {
+          color: #4070f4;
+          text-decoration: none;
+        }
+        form .text h3 a:hover {
+          text-decoration: underline;
+        }
+        form .note {
+          font-size: 14px;
+          color: #333;
+          margin: 10px 0;
+          text-align: center;
+        }
+        /* Additional Styling for Password Validation */
+        .password-feedback {
+          font-size: 12px;
+          color: red;
+          display: none;
+          margin-top: 5px;
+        }
+        .password-feedback.success {
+          color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Registration</h2>
+        <form action="{{ url_for('handle_signup') }}" method="post" id="signupForm">
+            <div class="input-box">
+                <input type="text" id="first_name" name="first_name" placeholder="Enter your First Name" pattern="[A-Za-z\s]+" title="First name should contain only letters and spaces" required autocomplete="off">
+                <span class="required">*</span>
+            </div>
+            <div class="input-box">
+                <input type="text" id="last_name" name="last_name" placeholder="Enter your Last Name" pattern="[A-Za-z\s]+" title="Last name should contain only letters and spaces" autocomplete="off">
+            </div>
+            <div class="input-box">
+                <input type="password" id="password" name="password" placeholder="Create Password" required autocomplete="off"
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
+                       title="Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character, and be at least 8 characters long">
+                <span class="required">*</span>
+                <div id="passwordFeedback" class="password-feedback"></div>
+            </div>
+            <div class="input-box">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required autocomplete="off">
+                <span class="required">*</span>
+                <i class="eye-icon" id="toggleConfirmPassword">👁️</i>
+                <div id="confirmFeedback" class="password-feedback"></div>
+            </div>
+            <div class="input-box">
+                <input type="email" id="email" name="email" placeholder="Enter your Email" required autocomplete="off">
+                <span class="required">*</span>
+            </div>
+            <div class="input-box">
+                <input type="number" id="phone_number" name="phone_number" placeholder="Enter your Phone Number" required autocomplete="off">
+                <span class="required">*</span>
+            </div>
+            <div class="input-box">
+                <input type="text" id="address" name="address" placeholder="Enter your Address" required autocomplete="off">
+                <span class="required">*</span>
+            </div>
+            <div class="policy">
+                <input type="checkbox" id="terms" name="terms" value="1" required>
+                <h3 for="terms">I accept all terms & condition</h3>
+                <span class="required">*</span>
+            </div>
+            <div class="note">
+                <p>* Required field</p>
+            </div>
+            <div class="input-box button">
+                <input type="submit" value="Register Now">
+            </div>
+            <div class="text">
+                <h3>Already have an account? <a href="/login">Login here</a></h3>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm_password");
+        const passwordFeedback = document.getElementById("passwordFeedback");
+        const confirmFeedback = document.getElementById("confirmFeedback");
+
+        // Real-time password validation
+        password.addEventListener("input", function() {
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+            if (regex.test(password.value)) {
+                passwordFeedback.textContent = "Strong password";
+                passwordFeedback.classList.add("success");
+                passwordFeedback.classList.remove("error");
+                passwordFeedback.style.display = "block";
+            } else {
+                passwordFeedback.textContent = "Password must meet requirements";
+                passwordFeedback.classList.add("error");
+                passwordFeedback.classList.remove("success");
+                passwordFeedback.style.display = "block";
+            }
+        });
+
+        // Real-time confirm password check
+        confirmPassword.addEventListener("input", function() {
+            if (confirmPassword.value === password.value) {
+                confirmFeedback.textContent = "Passwords match";
+                confirmFeedback.classList.add("success");
+                confirmFeedback.classList.remove("error");
+                confirmFeedback.style.display = "block";
+            } else {
+                confirmFeedback.textContent = "Passwords do not match";
+                confirmFeedback.classList.add("error");
+                confirmFeedback.classList.remove("success");
+                confirmFeedback.style.display = "block";
+            }
+        });
+
+        // Toggle password visibility
+        const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+        toggleConfirmPassword.addEventListener("click", function () {
+            const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+            confirmPassword.setAttribute("type", type);
+            this.textContent = type === "password" ? "👁️" : "👁️‍🗨️";
+        });
+    </script>
+</body>
+</html>

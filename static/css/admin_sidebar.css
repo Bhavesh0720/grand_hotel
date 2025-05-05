@@ -1,0 +1,172 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Light background color for the page */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333; /* Dark background for the sidebar */
+            color: #fff; /* White text for contrast */
+            height: 100vh; /* Full viewport height */
+            position: fixed; /* Fixed position to stay in place */
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            background-color: #444; /* Slightly lighter dark background */
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            border-bottom: 1px solid #555; /* Divider between menu items */
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #555; /* Highlight color on hover */
+        }
+
+        #main-content {
+            margin-left: 250px; /* Offset to make space for the sidebar */
+            padding: 20px;
+            width: calc(100% - 250px); /* Adjust width to fit the remaining space */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .room-list {
+            margin-top: 20px;
+        }
+
+        .room-group {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-group-header {
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .room-group-header h2 {
+            font-size: 24px;
+            margin: 0;
+            color: #000000
+        }
+
+        .view-button {
+            background-color: #fff;
+            color: #2196F3;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .view-button:hover {
+            background-color: #e3f2fd;
+        }
+
+        .room-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none; /* Hide all rooms initially */
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .room-card button {
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .room-card button.add {
+            background-color: #4CAF50;
+        }
+
+        .room-card button.edit {
+            background-color: #2196F3;
+        }
+
+        .room-card button.delete {
+            background-color: #f44336;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .form-container button:hover {
+            background-color: #575757;
+        }

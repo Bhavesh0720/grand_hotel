@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Rooms - Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_sidebar.css') }}">
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Light background color for the page */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333; /* Dark background for the sidebar */
+            color: #fff; /* White text for contrast */
+            height: 100vh; /* Full viewport height */
+            position: fixed; /* Fixed position to stay in place */
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            background-color: #444; /* Slightly lighter dark background */
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            border-bottom: 1px solid #555; /* Divider between menu items */
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #555; /* Highlight color on hover */
+        }
+
+        #main-content {
+            margin-left: 250px; /* Offset to make space for the sidebar */
+            padding: 20px;
+            width: calc(100% - 250px); /* Adjust width to fit the remaining space */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .room-list {
+            margin-top: 20px;
+        }
+
+        .room-group {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-group-header {
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .room-group-header h2 {
+            font-size: 24px;
+            margin: 0;
+            color: #000000;
+        }
+        .room-group-header .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-button, .add-room {
+            background-color: #fff;
+            color: #2196F3;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .view-button:hover, .add-room:hover {
+            background-color: #e3f2fd;
+        }
+
+        .add-room {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .add-room:hover {
+            background-color: #45a049;
+        }
+
+        .view-button {
+            background-color: #fff;
+            color: #2196F3;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .view-button:hover {
+            background-color: #e3f2fd;
+        }
+
+        .room-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none; /* Hide all rooms initially */
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .room-card button {
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .room-card button.add {
+            background-color: #4CAF50;
+        }
+
+        .room-card button.edit {
+            background-color: #2196F3;
+        }
+
+        .room-card button.delete {
+            background-color: #f44336;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .form-container button:hover {
+            background-color: #575757;
+        }
+        /* Styling the form container */
+        .form-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        .form-container h2 {
+            margin-top: 0;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-container input[type="text"], .form-container input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">Hotel Admin</div>
+        <ul>
+            <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('manage_rooms') }}">Manage Rooms</a></li>
+            <li><a href="{{ url_for('manage_booking') }}">Manage Reservations</a></li>
+            <li><a href="{{ url_for('manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('index') }}">Users Panel</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <section id="manage-rooms">
+            <h1>Manage Rooms</h1>
+
+            <div id="room-list" class="room-list">
+                {% for room_type, room_list in categorized_rooms.items() %}
+                <div class="room-group" id="{{ room_type|replace(' ', '_')|replace('(', '')|replace(')', '') }}" style="background-color: {{ loop.index % 2 == 0 and '#e3f2fd' or '#c5cae9' }};">
+                    <div class="room-group-header">
+                        <h2>{{ room_type }}</h2>
+                        <div class="button-container">
+                            <button class="add-room" onclick="showAddRoomForm('{{ room_type }}', '{{ room_type|replace(' ', '_') }}')">Add Room</button>
+                            <button class="view-button" onclick="toggleRooms('{{ room_type }}')">View Rooms</button>
+                        </div>
+                    </div>
+
+                    {% for room in room_list %}
+                    <div class="room-card {{ room.room_type|replace(' ', '_')|replace('(', '')|replace(')', '') }}">
+                        <div>
+                            <strong>Room ID: {{ room.room_id }}</strong><br>
+                            Rate: ₹{{ room.rate }}
+
+                        </div>
+                        <div>
+<!--                            <form action="{{ url_for('manage_rooms') }}" method="POST" style="display:inline;">-->
+<!--                                <input type="hidden" name="room-id" value="{{ room.room_id }}">-->
+<!--                                <button type="button" class="add" onclick="showAddRoomForm('{{ room.room_type }}', '{{ room.room_type|replace(' ', '_') }}')">Add Room</button>-->
+<!--                            </form>-->
+                            <form action="{{ url_for('manage_rooms') }}" method="POST" style="display:inline;">
+                                <input type="hidden" name="room-id" value="{{ room.room_id }}">
+                                <button type="button" class="edit" onclick="editRoom('{{ room.room_id }}', '{{ room.room_type }}', '{{ room.rate }}')">Edit</button>
+                            </form>
+                            <form action="{{ url_for('manage_rooms') }}" method="POST" style="display:inline;">
+                                <input type="hidden" name="room-id" value="{{ room.room_id }}">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="submit" class="delete">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="form-placeholder"></div> <!-- Placeholder for the form -->
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const showAddRoomForm = (roomType = '', roomGroupId = '') => {
+            // Create the form HTML for adding a room
+            const formHtml = `
+                <div class="form-container">
+                    <h2 id="form-title">Add Room</h2>
+                    <form id="add-room-form" action="{{ url_for('manage_rooms') }}" method="POST">
+                        <label for="room-id">Room ID:</label>
+                        <input type="text" id="room-id" name="room-id" required>
+
+                        <label for="room-type">Room Type:</label>
+                        <input type="text" id="room-type" name="room-type" value="${roomType}" readonly>
+
+                        <label for="room-rate">Room Rate:</label>
+                        <input type="number" id="room-rate" name="room-rate" required>
+
+                        <input type="hidden" name="action" id="form-action" value="add">
+                        <button type="submit">Save Room</button>
+                        <button type="button" onclick="hideAddRoomForm()">Cancel</button>
+                    </form>
+                </div>
+            `;
+
+            // Find the placeholder and insert the form HTML
+            const placeholder = document.querySelector(`#${roomGroupId} .form-placeholder`);
+            if (placeholder) {
+                placeholder.innerHTML = formHtml;
+                placeholder.style.display = 'block'; // Ensure the form is visible
+            } else {
+                console.error('Form placeholder not found for room group ID:', roomGroupId);
+            }
+        };
+
+        const hideAddRoomForm = () => {
+            const placeholders = document.querySelectorAll('.form-placeholder');
+            placeholders.forEach(placeholder => {
+                placeholder.innerHTML = '';
+                placeholder.style.display = 'none';
+            });
+        };
+
+        const editRoom = (id, type, rate) => {
+            // Create the form HTML for editing a room
+            const formHtml = `
+                <div class="form-container">
+                    <h2 id="form-title">Edit Room</h2>
+                    <form id="edit-room-form" action="{{ url_for('manage_rooms') }}" method="POST">
+                        <label for="room-id">Room ID:</label>
+                        <input type="text" id="room-id" name="room-id" value="${id}" readonly>
+
+                        <label for="room-type">Room Type:</label>
+                        <input type="text" id="room-type" name="room-type" value="${type}" readonly>
+
+                        <label for="room-rate">Room Rate:</label>
+                        <input type="number" id="room-rate" name="room-rate" value="${rate}" required>
+
+                        <input type="hidden" name="action" id="form-action" value="edit">
+                        <button type="submit">Update Room</button>
+                        <button type="button" onclick="hideAddRoomForm()">Cancel</button>
+                    </form>
+                </div>
+            `;
+
+            // Find the placeholder for the corresponding room group and insert the form HTML
+            const placeholder = document.querySelector(`#${type.replace(/\s+/g, '_')} .form-placeholder`);
+            if (placeholder) {
+                placeholder.innerHTML = formHtml;
+                placeholder.style.display = 'block'; // Ensure the form is visible
+            } else {
+                console.error('Form placeholder not found for room type:', type);
+            }
+        };
+
+        const toggleRooms = (roomType) => {
+            // Normalize the roomType by replacing spaces and special characters
+            const normalizedRoomType = roomType.replace(/\s+/g, '_').replace(/\(/g, '').replace(/\)/g, '');
+            const roomCards = document.querySelectorAll(`.room-card.${normalizedRoomType}`);
+            if (roomCards.length > 0) {
+                roomCards.forEach(card => {
+                    // Toggle display state
+                    card.style.display = card.style.display === 'none' || card.style.display === '' ? 'flex' : 'none';
+                });
+            } else {
+                console.error('No room cards found for room type:', roomType);
+            }
+        };
+
+        // Initialize room cards to be hidden
+        document.addEventListener('DOMContentLoaded', () => {
+            const roomCards = document.querySelectorAll('.room-card');
+            roomCards.forEach(card => {
+                card.style.display = 'none'; // Ensure all room cards are initially hidden
+            });
+        });
+    </script>
+</body>
+</html>

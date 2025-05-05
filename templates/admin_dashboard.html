@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_sidebar.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .admin-panel {
+            display: flex;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            background-color: #444;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            border-bottom: 1px solid #555;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #555;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+
+        .dashboard-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stat-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .stat-box:last-child {
+            margin-right: 0;
+        }
+
+        .recent-reservations {
+            margin-top: 40px;
+        }
+
+        .recent-reservations table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .recent-reservations table, .recent-reservations th, .recent-reservations td {
+            border: 1px solid #ddd;
+        }
+
+        .recent-reservations th, .recent-reservations td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .recent-reservations th {
+            background-color: #f4f4f4;
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+<!--            max-width: 800px;-->
+            margin: 0 auto;
+            overflow: hidden;
+         }
+
+        .slider {
+            position: relative;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="admin-panel">
+        <nav class="sidebar">
+            <div class="logo">Hotel Admin</div>
+            <ul>
+                <li><a href="{{ url_for('admin_dashboard')}}">Dashboard</a></li>
+                <li><a href="{{ url_for('manage_rooms') }}">Manage Rooms</a></li>
+                <li><a href="{{ url_for('manage_booking') }}">Manage Reservations</a></li>
+                <li><a href="{{ url_for('manage_users') }}">Manage Users</a></li>
+                <li><a href="{{ url_for('index') }}">Users Panel</a></li>
+            </ul>
+        </nav>
+        <main class="content">
+            <section id="dashboard">
+                <h1>Dashboard</h1>
+                <div class="slider-container">
+                    <div class="slider">
+                        <div class="slides">
+                            <div class="slide">
+                                <img src="{{ url_for('static', filename='images/psuite_2.jpg') }}" alt="Slide 1">
+                            </div>
+                            <div class="slide">
+                                <img src="{{ url_for('static', filename='images/slider-5.jpg') }}" alt="Slide 2">
+                            </div>
+                            <div class="slide">
+                                <img src="{{ url_for('static', filename='images/slider-4.jpg') }}" alt="Slide 3">
+                            </div>
+                            <div class="slide">
+                                <img src="{{ url_for('static', filename='images/psuite_3.jpg') }}" alt="Slide 3">
+                            </div>
+                            <div class="slide">
+                                <img src="{{ url_for('static', filename='images/psuite_1.jpg') }}" alt="Slide 3">
+                            </div>
+                            <div class="slide">
+                                <img src="{{ url_for('static', filename='images/slider-6.jpg') }}" alt="Slide 3">
+                            </div>
+                            <div class="slide">
+                                <img src="{{ url_for('static', filename='images/slider-7.jpg') }}" alt="Slide 3">
+                            </div>
+                        </div>
+                        <button class="prev" onclick="prevSlide()">&#10094;</button>
+                        <button class="next" onclick="nextSlide()">&#10095;</button>
+                    </div>
+                </div>
+
+                <div class="recent-reservations">
+                    <h2>Recent Reservations</h2>
+                    <table id="reservations-table">
+                        <thead>
+                            <tr>
+                                <th>Reservation ID</th>
+                                <th>User ID</th>
+                                <th>Room ID</th>
+                                <th>Check-in Date</th>
+                                <th>Check-out Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Fetch dashboard stats
+            $.ajax({
+                url: '/api/dashboard-stats',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#total-users').text(data.totalUsers);
+                    $('#total-admins').text(data.totalAdmins);
+                    $('#available-rooms').text(data.availableRooms);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching dashboard stats:', xhr.responseText);
+                    $('#total-users').text('Error');
+                    $('#total-admins').text('Error');
+                    $('#available-rooms').text('Error');
+                }
+            });
+
+            // Fetch recent reservations
+            $.ajax({
+                url: '/api/recent-reservations',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tableBody = $('#reservations-table tbody');
+                    tableBody.empty();
+                    data.reservations.forEach(function(reservation) {
+                        var row = `<tr>
+                            <td>${reservation.reservation_id}</td>
+                            <td>${reservation.user_id}</td>
+                            <td>${reservation.room_id}</td>
+                            <td>${reservation.check_in_date}</td>
+                            <td>${reservation.check_out_date}</td>
+                        </tr>`;
+                        tableBody.append(row);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching recent reservations:', xhr.responseText);
+                }
+            });
+        });
+        let slideIndex = 0;
+
+        function showSlides() {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, index) => {
+                slide.style.transform = `translateX(-${slideIndex * 100}%)`;
+            });
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlides();
+        }
+
+        function prevSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+            showSlides();
+        }
+
+        // Initialize slider
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlides();
+            setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        });
+
+    </script>
+</body>
+</html>

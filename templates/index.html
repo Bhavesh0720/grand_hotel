@@ -1,0 +1,434 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Hotel Grand - A luxurious stay with comfort and elegance">
+    <meta name="keywords" content="hotel, luxury, stay, accommodation, events">
+    <meta name="author" content="Your Company">
+    <title>Hotel Grand</title>
+
+    <style>
+        .short-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Number of lines to show */
+            -webkit-box-orient: vertical;
+        }
+
+        .more-content {
+            display: none;
+        }
+
+        .see-more-btn {
+            margin-top: 10px;
+            display: block;
+        }
+
+        .show-more .more-content {
+            display: block;
+        }
+
+        .show-more .short-text {
+            display: none;
+        }
+    </style>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.timepicker.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fancybox.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/ionicons/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome/css/font-awesome.min.css') }}">
+
+    <!-- Favicon -->
+    <!--    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">-->
+</head>
+<body>
+
+    <section class="site-hero inner-page overlay" style="background-image: url('{{ url_for('static', filename='images/hero_4.jpg') }}');" data-stellar-background-ratio="0.5">
+        <!-- Header Start -->
+        <div class="container-fluid bg-transparent px-0">
+            <div class="row gx-0">
+                <div class="col-lg-3 bg-transparent d-none d-lg-flex align-items-center justify-content-center">
+                    <a href="{{ url_for('index') }}" class="navbar-brand d-flex align-items-center">
+                        <img src="{{ url_for('static', filename='images/Hotel_Grand_Logo.jpg') }}" alt="Hotel Logo" class="logo-image">
+                    </a>
+                </div>
+
+                <div class="col-lg-9 d-flex justify-content-between align-items-center">
+                    <nav class="navbar navbar-expand-lg bg-transparent navbar-dark p-3 p-lg-0 w-100">
+                        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
+                            <div class="navbar-nav">
+                                <a href="{{ url_for('index') }}" class="nav-item nav-link active">Home</a>
+                                <a href="{{ url_for('about') }}" class="nav-item nav-link">About</a>
+                                <a href="{{ url_for('rooms') }}" class="nav-item nav-link">Rooms</a>
+                                <a href="{{ url_for('reservation') }}" class="nav-item nav-link">Booking</a>
+                                <a href="{{ url_for('contact') }}" class="nav-item nav-link">Contact</a>
+                                <a href="{{ url_for('events') }}" class="nav-item nav-link">Events</a>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!-- User Profile with Initials or Login Link -->
+                    <div class="nav-item d-flex align-items-center">
+                        {% if 'email' in session %}
+                            <a href="{{ url_for('profile') }}" class="nav-item nav-link rounded-circle bg-light text-dark d-flex align-items-center justify-content-center profile-logo">
+                                {{ session['email'][0]|upper }}
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="nav-item nav-link">Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
+
+            <div class="container">
+                <div class="row site-hero-inner justify-content-center align-items-center">
+                    <div class="col-md-10 text-center" data-aos="fade-up">
+                        <span class="custom-caption text-uppercase text-white d-block mb-3">Welcome To 5 <span class="fa fa-star text-primary"></span> Hotel</span>
+                        <h1 class="heading">A Best Place To Stay</h1>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!--service block-->
+    <section class="service-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-6 width-50">
+                    <div class="service-details text-center">
+                        <div class="service-image">
+                            <img alt="image" class="img-responsive" src="{{ url_for('static', filename='images/wifi.png') }}">
+                        </div>
+                        <h4><a>free wifi</a></h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6 width-50">
+                    <div class="service-details text-center">
+                        <div class="service-image">
+                            <img alt="image" class="img-responsive" src="{{ url_for('static', filename='images/key.png') }}">
+                        </div>
+                        <h4><a>room service</a></h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6 mt-25">
+                    <div class="service-details text-center">
+                        <div class="service-image">
+                            <img alt="image" class="img-responsive" src="{{ url_for('static', filename='images/car.png') }}">
+                        </div>
+                        <h4><a>free parking</a></h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6 mt-25">
+                    <div class="service-details text-center">
+                        <div class="service-image">
+                            <img alt="image" class="img-responsive" src="{{ url_for('static', filename='images/user.png') }}">
+                        </div>
+                        <h4><a>customer support</a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5" data-aos="fade-up">
+                    <figure class="img-absolute">
+                        <img src="{{ url_for('static', filename='images/food-1.jpg') }}" alt="Food Image" class="img-fluid">
+                    </figure>
+                    <img src="{{ url_for('static', filename='images/img_1.jpg') }}" alt="Hotel Image" class="img-fluid rounded">
+                </div>
+                <div class="col-md-12 col-lg-5 order-lg-1" data-aos="fade-up">
+                    <h2 class="heading">Welcome!</h2>
+                    <p class="mb-4">
+                        Our hotel is nestled in the heart of India, where you can experience a perfect blend of tradition and modernity. Enjoy a unique stay close to ancient temples and historic sites, and immerse yourself in the rich cultural heritage of the region.
+                        <span id="moreDetails" style="display: none;">
+                           Our hotel exemplifies the warmth and hospitality of Indian service, ensuring a comfortable and memorable stay. Here, you will find detailed information about our hotel, services, and nearby attractions. Explore historic landmarks, cultural events, and savor delicious Indian cuisine, all contributing to a truly special experience.
+                        </span>
+                    </p>
+
+                    <p class="d-flex justify-content-between">
+                        <a href="#" class="btn btn-primary text-white py-2" id="learnMoreBtn">Learn More</a>
+                        <span><b><i>OR</i></b></span>
+                        <a href="https://youtu.be/IbV_4nXb5rk?si=jsB8r--WP-hZXOSv" data-fancybox class="btn btn-primary text-white py-2">See video</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('learnMoreBtn').addEventListener('click', function(event) {
+            event.preventDefault();
+            var moreDetails = document.getElementById('moreDetails');
+            if (moreDetails.style.display === "none") {
+                moreDetails.style.display = "inline"; // Show the details inline
+                this.textContent = "Show Less"; // Change button text
+            } else {
+                moreDetails.style.display = "none"; // Hide the details
+                this.textContent = "Learn More"; // Reset button text
+            }
+        });
+    </script>
+
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-8">
+                    <h2 class="heading" data-aos="fade-up">Rooms & Suites</h2>
+                    <p data-aos="fade-up" data-aos-delay="100">
+                        Our hotel is situated in the vibrant heart of India, where tradition and modernity seamlessly blend.
+                        Experience the charm of ancient architecture and lush landscapes, and enjoy the rich flavors of local cuisine.
+                        From bustling markets to serene temples, discover the diverse cultural tapestry that makes our location unique and memorable.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                {% for room in rooms %}
+                <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
+                    <a href="{{ url_for('reservation', room_type=room['room_type']) }}" class="btn btn-primary text-white">
+                        <figure class="img-wrap">
+                            {% if room['room_type'] == 'Business Class' %}
+                                <img src="{{ url_for('static', filename='images/img_5.jpg') }}" alt="Single Room (AC)" class="img-fluid mb-3">
+                            {% elif room['room_type'] == 'Deluxe Suite' %}
+                                <img src="{{ url_for('static', filename='images/img_4.jpg') }}" alt="Deluxe Suite" class="img-fluid mb-3">
+                            {% elif room['room_type'] == 'Family Room' %}
+                                <img src="{{ url_for('static', filename='images/img_3.jpg') }}" alt="Presidential Suite" class="img-fluid mb-3">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/default_room.jpg') }}" alt="{{ room['room_type'] }}" class="img-fluid mb-3">
+                            {% endif %}
+                        </figure>
+                        <div class="p-3 text-center room-info">
+                            <h2>{{ room['room_type'] }}</h2>
+                            <span class="text-uppercase letter-spacing-1">Rs.{{ room['rate'] }} / per night</span>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="section slider-section bg-light">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-9">
+                    <h2 class="heading" data-aos="fade-up">Photos</h2>
+                    <p data-aos="fade-up" data-aos-delay="100">
+                        Explore our gallery to see a glimpse of the stunning landscapes and elegant interiors of our hotel. From luxurious rooms to picturesque views of the surrounding area, each photo captures the essence of our hospitality and the unique charm of our location. Enjoy the visual journey through our exceptional amenities and inviting spaces.
+                    </p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="home-slider owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
+                        <div class="slider-item">
+                            <a href="{{ url_for('static', filename='images/slider-1.jpg') }}" data-fancybox="images" data-caption="Caption for this image">
+                                <img src="{{ url_for('static', filename='images/slider-1.jpg') }}" alt="Slider Image 1" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="slider-item">
+                            <a href="{{ url_for('static', filename='images/slider-2.jpg') }}" data-fancybox="images" data-caption="Caption for this image">
+                                <img src="{{ url_for('static', filename='images/slider-2.jpg') }}" alt="Slider Image 2" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="slider-item">
+                            <a href="{{ url_for('static', filename='images/slider-3.jpg') }}" data-fancybox="images" data-caption="Caption for this image">
+                                <img src="{{ url_for('static', filename='images/slider-3.jpg') }}" alt="Slider Image 3" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="slider-item">
+                            <a href="{{ url_for('static', filename='images/slider-4.jpg') }}" data-fancybox="images" data-caption="Caption for this image">
+                                <img src="{{ url_for('static', filename='images/slider-4.jpg') }}" alt="Slider Image 4" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="slider-item">
+                            <a href="{{ url_for('static', filename='images/slider-5.jpg') }}" data-fancybox="images" data-caption="Caption for this image">
+                                <img src="{{ url_for('static', filename='images/slider-5.jpg') }}" alt="Slider Image 5" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="slider-item">
+                            <a href="{{ url_for('static', filename='images/slider-6.jpg') }}" data-fancybox="images" data-caption="Caption for this image">
+                                <img src="{{ url_for('static', filename='images/slider-6.jpg') }}" alt="Slider Image 6" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="slider-item">
+                            <a href="{{ url_for('static', filename='images/slider-7.jpg') }}" data-fancybox="images" data-caption="Caption for this image">
+                                <img src="{{ url_for('static', filename='images/slider-7.jpg') }}" alt="Slider Image 7" class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-8">
+                    <h2 class="heading" data-aos="fade-up">Events</h2>
+                    <p data-aos="fade-up" data-aos-delay="100">
+                        Discover a range of vibrant and culturally rich events hosted at our hotel and in the local area. From traditional Indian festivals to contemporary cultural events, our venue provides a perfect backdrop for memorable gatherings. Experience the warmth and excitement of our community events, and immerse yourself in the local culture during your stay.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="100">
+                    <div class="media media-custom d-block mb-4 h-100">
+                        <a href="#" class="mb-4 d-block"><img src="{{ url_for('static', filename='images/img_1.jpg') }}" alt="Event Image" class="img-fluid"></a>
+                        <div class="media-body">
+                            <span class="meta-post">February 26, 2018</span>
+                            <h2 class="mt-0 mb-3"><a href="#">Experience the Vibrant Festivals of India</a></h2>
+                            <p class="short-text">Join us for a series of colorful and lively festivals that showcase India's rich cultural heritage. From traditional dances to local music performances, immerse yourself in the vibrant celebrations and festivities that define the spirit of India.</p>
+                            <div class="more-content">
+                                <p>Join us for a series of colorful and lively festivals that showcase India's rich cultural heritage. From traditional dances to local music performances, immerse yourself in the vibrant celebrations and festivities that define the spirit of India.</p>
+                            </div>
+                            <a href="#" class="btn btn-primary see-more-btn">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 post mb-5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="media media-custom d-block mb-4 h-100">
+                        <a href="#" class="mb-4 d-block"><img src="{{ url_for('static', filename='images/img_2.jpg') }}" alt="Image placeholder" class="img-fluid"></a>
+                        <div class="media-body">
+                            <span class="meta-post">February 26, 2018</span>
+                            <h2 class="mt-0 mb-3"><a href="#">Discover Traditional Indian Cuisine Workshops</a></h2>
+                            <p class="short-text">Explore the rich flavors of India with our hands-on cooking workshops. Learn to prepare traditional dishes using authentic spices and techniques, and take home new culinary skills to impress your friends and family.</p>
+                            <div class="more-content">
+                                <p>Explore the rich flavors of India with our hands-on cooking workshops. Learn to prepare traditional dishes using authentic spices and techniques, and take home new culinary skills to impress your friends and family.</p>
+                            </div>
+                            <a href="#" class="btn btn-primary see-more-btn">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 post mb-5" data-aos="fade-up" data-aos-delay="300">
+                    <div class="media media-custom d-block mb-4 h-100">
+                        <a href="#" class="mb-4 d-block"><img src="{{ url_for('static', filename='images/img_3.jpg') }}" alt="Image placeholder" class="img-fluid"></a>
+                        <div class="media-body">
+                            <span class="meta-post">February 26, 2018</span>
+                            <h2 class="mt-0 mb-3"><a href="#">Guided Tours of Historic Indian Landmarks</a></h2>
+                            <p class="short-text">Experience the grandeur of India's historic landmarks with our guided tours. From ancient forts to majestic temples, explore the architectural marvels and learn about the rich history and heritage of the region.</p>
+                            <div class="more-content">
+                                <p>Experience the grandeur of India's historic landmarks with our guided tours. From ancient forts to majestic temples, explore the architectural marvels and learn about the rich history and heritage of the region.</p>
+                            </div>
+                            <a href="#" class="btn btn-primary see-more-btn">See More</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more events as needed -->
+            </div>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    $('.see-more-btn').click(function(e) {
+                        e.preventDefault();
+                        var $post = $(this).closest('.post');
+                        $post.toggleClass('show-more');
+                        if ($post.hasClass('show-more')) {
+                            $(this).text('See Less');
+                        } else {
+                            $(this).text('See More');
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </section>
+
+    <section class="section bg-image overlay" style="background-image: url('{{ url_for('static', filename='images/hero_4.jpg') }}');">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-6 text-center mb-4 mb-md-0 text-md-left" data-aos="fade-up">
+                    <h2 class="text-white font-weight-bold">A Best Place To Stay. Reserve Now!</h2>
+                </div>
+                <div class="col-12 col-md-6 text-center text-md-right" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{{ url_for('reservation') }}" class="btn btn-outline-white-primary py-3 text-white px-5">Reserve Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="section footer-section">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 mb-5">
+                    <ul class="list-unstyled link">
+                        <li><a href="{{ url_for('rooms')}}">The Rooms &amp; Suites</a></li>
+                        <li><a href="{{ url_for('about')}}">About Us</a></li>
+                        <li><a href="{{url_for('contact')}}">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-5">
+                    <ul class="list-unstyled link">
+                        <li><a href="{{url_for('terms_and_conditions')}}">Terms &amp; Conditions</a></li>
+                        <li><a href="{{url_for('privacy_policy')}}">Privacy Policy</a></li>
+                        <li><a href="{{url_for('our_location')}}">Our Location</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5 mb-6">
+                    <ul class="list-unstyled">
+                        <li><strong>Hotel Address:</strong></li>
+                        <p> Near Sardar Bag, Shanala Road,
+                            Morbi-363641, Gujarat, India.
+                        <p>Phone: +123 456 7890</p>
+                        <p>Email: grand123@gmail.com</p>
+                    </ul>
+                </div>
+            </div>
+            <div class="row bordertop">
+                <p class="col-md-7 text-left">
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | <a href="{{ url_for('index')}}">Grand Hotel</a>
+                </p>
+
+                <p class="col-md-5 text-right social">
+                    <a href="https://www.tripadvisor.in/"><span class="fa fa-tripadvisor"></span></a>
+                    <a href="https://www.facebook.com/"><span class="fa fa-facebook"></span></a>
+                    <a href="https://x.com/?lang=en"><span class="fa fa-twitter"></span></a>
+                    <a href="https://www.instagram.com/"><span class="fa fa-instagram"></span></a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <!-- jQuery Migrate -->
+    <script src="{{ url_for('static', filename='js/jquery-migrate-3.0.1.min.js') }}"></script>
+    <!-- Stellar JS -->
+    <script src="{{ url_for('static', filename='js/jquery.stellar.min.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- AOS JS -->
+    <script src="{{ url_for('static', filename='js/aos.js') }}"></script>
+    <!-- Owl Carousel JS -->
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <!-- Fancybox JS -->
+    <script src="{{ url_for('static', filename='js/jquery.fancybox.min.js') }}"></script>
+    <!-- Main JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

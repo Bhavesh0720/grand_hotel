@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #343a40; /* Dark background color */
+            color: #f8f9fa; /* Light text color */
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 60px; /* Add space for fixed header */
+        }
+        .card {
+            border-radius: 10px; /* Rounded corners for card */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly darker shadow */
+            background-color: #495057; /* Darker background for the card */
+            color: #f8f9fa; /* Light text color inside the card */
+        }
+        .card-body {
+            padding: 20px; /* Padding inside the card */
+        }
+        .card-title {
+            font-size: 1.5rem;
+            color: #ffc107; /* Yellow color for card title */
+            margin-bottom: 20px;
+        }
+        .list-group-item {
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners for list items */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for list items */
+            margin-bottom: 10px;
+            background-color:  #495057; /* Darker background for list items */
+            color: #f8f9fa; /* Light text color */
+        }
+        .list-group-item h5 {
+            font-size: 1.2rem;
+            color: #ffc107; /* Yellow color for list item headings */
+        }
+        .list-group-item p {
+            font-size: 1rem;
+            color: #e9ecef; /* Slightly lighter text color */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Primary button color */
+            border-color: #007bff; /* Border color to match button */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            border-color: #004085; /* Darker border color on hover */
+        }
+        .btn-logout {
+            background-color: #dc3545; /* Red color for logout button */
+            border-color: #dc3545; /* Border color to match button */
+        }
+        .btn-logout:hover {
+            background-color: #c82333; /* Darker shade on hover */
+            border-color: #bd2130; /* Darker border color on hover */
+        }
+        h1, h2, h3 {
+            color: #f8f9fa; /* Light text color for headings */
+        }
+        h3 {
+            margin-top: 30px; /* Space before the reservations section */
+        }
+        .header {
+            position: fixed; /* Fixed position */
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #495057; /* Darker background for header */
+            padding: 10px;
+            z-index: 1000; /* Make sure it stays on top */
+        }
+        .header a {
+            color: #ffc107; /* Yellow color for links */
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        .header a:hover {
+            color: #e9ecef; /* Slightly lighter color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('index') }}">Home</a>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-center">Profile Page</h1>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Welcome, {{ user.first_name }} {{ user.last_name }}</h2>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+                        <p><strong>Address:</strong> {{ user.address }}</p>
+                    </div>
+                </div>
+
+                <h3>Your Past Reservations</h3>
+                {% if reservations %}
+                    <div class="list-group">
+                        {% for reservation in reservations %}
+                            <div class="list-group-item">
+                                <h5 class="mb-1"><strong>Reservation ID:</strong> {{ reservation.reservation_id }}</h5>
+                                <p class="mb-1"><strong>Room ID:</strong> {{ reservation.room_id }}</p>
+                                <p class="mb-1"><strong>Room Type:</strong> {{ reservation.room_type }}</p>
+                                <p class="mb-1"><strong>Check-in Date:</strong> {{ reservation.check_in_date }}</p>
+                                <p class="mb-1"><strong>Check-out Date:</strong> {{ reservation.check_out_date }}</p>
+                                <p class="mb-1"><strong>Reservation Date:</strong> {{ reservation.reservation_date }}</p>
+                                <p class="mb-1"><strong>Notes:</strong> {{ reservation.notes }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No past reservations found.</p>
+                {% endif %}
+
+                <a href="{{ url_for('reservation') }}" class="btn btn-primary mt-4">Make a New Reservation</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-logout mt-4">Logout</a> <!-- Logout Button -->
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-logout mt-4">Admin Penal</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
