@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 import pymysql
 from pymysql import MySQLError
 from datetime import datetime, timedelta
-
+import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 app.secret_key = 'dhaval123'  # Set your secret key for sessions
@@ -13,20 +15,34 @@ def make_session_permanent():
     session.permanent = True  # This will make the session expire based on `PERMANENT_SESSION_LIFETIME`
     session.modified = True   # Refresh session timeout on every request
 
-# Database connection function
 def create_connection():
     try:
-        connection = pymysql.connect(
-            host='localhost',
-            user='root',
-            password='',
-            database='hotel',
-            cursorclass=pymysql.cursors.DictCursor
+        conn = psycopg2.connect(
+            host=os.environ.get("dpg-d35bfc2li9vc739ll81g-a"),
+            user=os.environ.get("hotel_user"),
+            password=os.environ.get("sR7FO3JRyOj2ZqgLbYAin5p7PDT3efQu"),
+            dbname=os.environ.get("grand_hotel_db"),
+            cursor_factory=RealDictCursor
         )
-        return connection
-    except MySQLError as e:
-        print(f"Database Connection Error: {e}")
+        return conn
+    except Exception as e:
+        print(f"Database connection error: {e}")
         return None
+
+# # Database connection function
+# def create_connection():
+#     try:
+#         connection = pymysql.connect(
+#             host='localhost',
+#             user='root',
+#             password='',
+#             database='hotel',
+#             cursorclass=pymysql.cursors.DictCursor
+#         )
+#         return connection
+#     except MySQLError as e:
+#         print(f"Database Connection Error: {e}")
+#         return None
 
 
 @app.route('/')
